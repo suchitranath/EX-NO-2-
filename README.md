@@ -34,10 +34,51 @@ STEP-5: Display the obtained cipher text.
 
 
 
-Program:
-
+## Program:
+import re 
+def prepare_text(text): 
+text = re.sub(r'[^a-zA-Z]', ', text).lower().replace('j', 'i') 
+if len(text) % 2 != 0: 
+text += 'z' 
+return text 
+def create_key_square(key): 
+key = '.join(dict.fromkeys(key.replace('j', 'i') + "abcdefghiklmnopqrstuvwxyz")) 
+return [list(key[i:i+5]) for i in range(0, 25, 5)] 
+def find_positions(key_square, char): 
+for i, row in enumerate(key_square): 
+if char in row: 
+return i, row.index(char) 
+def playfair_cipher(text, key, encrypt=True): 
+key_square = create_key_square(key) 
+text = prepare_text(text) 
+result = "" 
+shift = 1 if encrypt else -1 
+for i in range(0, len(text), 2): 
+a, b = text[i], text[i+1] 
+r1, c1 = find_positions(key_square, a) 
+r2, c2 = find_positions(key_square, b) 
+if r1 == r2: 
+result += key_square[r1][(c1 + shift) % 5] + key_square[r2][(c2 + shift) % 5] 
+elif c1 == c2: 
+result += key_square[(r1 + shift) % 5][c1] + key_square[(r2 + shift) % 5][c2] 
+else: 
+result += key_square[r1][c2] + key_square[r2][c1] 
+return result 
+def main(): 
+4 
+key = "suchitra"
+plaintext = "saveetha" 
+ciphertext = playfair_cipher(plaintext, key, encrypt=True) 
+decrypted_text = playfair_cipher(ciphertext, key, encrypt=False) 
+print(f"Key: {key}") 
+print(f"Plaintext: {plaintext}") 
+print(f"Ciphertext: {ciphertext}") 
+print(f"Decrypted Text: {decrypted_text}") 
+if __name__ == "__main__": 
+main()
 
 
 
 
 Output:
+![image](https://github.com/user-attachments/assets/086d1337-13e1-478f-8a3a-67e8c03d3964)
