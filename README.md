@@ -35,6 +35,7 @@ STEP-5: Display the obtained cipher text.
 
 
 ## Program:
+```
 import re 
 def prepare_text(text): 
 text = re.sub(r'[^a-zA-Z]', ', text).lower().replace('j', 'i') 
@@ -76,7 +77,7 @@ print(f"Ciphertext: {ciphertext}")
 print(f"Decrypted Text: {decrypted_text}") 
 if __name__ == "__main__": 
 main()
-
+```
 
 
 
